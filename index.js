@@ -1,6 +1,6 @@
 import { AppState } from 'react-native';
 
-export const FOREGROUND = 'APP_STATE.FOREGROUND';
+export const ACTIVE = 'APP_STATE.ACTIVE';
 export const BACKGROUND = 'APP_STATE.BACKGROUND';
 export const INACTIVE = 'APP_STATE.INACTIVE';
 
@@ -13,7 +13,7 @@ export default () => (createStore) => (...args) => {
     if (currentState !== nextAppState) {
       let type;
       if (nextAppState === 'active') {
-        type = FOREGROUND;
+        type = ACTIVE;
       } else if (nextAppState === 'background') {
         type = BACKGROUND;
       } else if (nextAppState === 'inactive') {
@@ -30,7 +30,6 @@ export default () => (createStore) => (...args) => {
 
   AppState.addEventListener('change', handleAppStateChange);
   
-  // setTimeout to allow redux-saga to catch the initial state fired by redux-enhancer-react-native-appstate library
-  setTimeout(() => handleAppStateChange(AppState.currentState));
+  handleAppStateChange(AppState.currentState);
   return store;
 };
